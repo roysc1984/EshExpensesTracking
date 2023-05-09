@@ -12,11 +12,14 @@ import {
 } from '@react-navigation/native';
 import { WHITE_COLOR } from './src/theme/themeStyles';
 import HomeStackScreens from './src/screens/home/HomeStackScreens';
+import CreateEditExpenseModalScreen from 'screens/home/screens/ModalScreen/CreateEditExpenseModalScreen';
+import FilterExpensesModalScreen from 'screens/home/screens/ModalScreen/FilterExpensesModalScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
     const navigationRef = useNavigationContainerRef();
+
     return (
         <SafeAreaProvider style={styles.appContainer}>
             <NavigationContainer ref={navigationRef}>
@@ -33,20 +36,42 @@ const App = () => {
                         presentation: 'card',
                     }}
                 >
-                    <Stack.Screen
-                        name={Route.Welcome}
-                        component={WelcomeScreen}
-                        options={{
-                            animationEnabled: false,
+                    <Stack.Group>
+                        <Stack.Screen
+                            name={Route.Welcome}
+                            component={WelcomeScreen}
+                            options={{
+                                animationEnabled: false,
+                            }}
+                        />
+                        <Stack.Screen
+                            name={Route.HomeTabs}
+                            component={HomeStackScreens}
+                            options={{
+                                animationEnabled: false,
+                            }}
+                        />
+                    </Stack.Group>
+                    <Stack.Group
+                        screenOptions={{
+                            presentation: 'modal',
                         }}
-                    />
-                    <Stack.Screen
-                        name={Route.HomeTabs}
-                        component={HomeStackScreens}
-                        options={{
-                            animationEnabled: false,
-                        }}
-                    />
+                    >
+                        <Stack.Screen
+                            name={Route.ModalExpense}
+                            component={CreateEditExpenseModalScreen}
+                            options={{
+                                animationEnabled: true,
+                            }}
+                        />
+                        <Stack.Screen
+                            name={Route.ModalFilter}
+                            component={FilterExpensesModalScreen}
+                            options={{
+                                animationEnabled: true,
+                            }}
+                        />
+                    </Stack.Group>
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>

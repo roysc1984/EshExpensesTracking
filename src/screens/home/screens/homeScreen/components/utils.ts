@@ -8,7 +8,7 @@ export const orderedExpensesData = (expenses: Expense[]): Section[] =>
             .reduce(
                 (acc: Record<string, Section>, { id, title, date, amount }) => {
                     acc[date] = acc[date] || { date, data: [] };
-                    acc[date].data.push({ id, title, amount });
+                    acc[date].data.push({ id, title, amount, date });
                     return acc;
                 },
                 {},

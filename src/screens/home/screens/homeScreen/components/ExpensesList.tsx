@@ -11,34 +11,42 @@ import PressableOpacity from 'components/PressableOpacity';
 import { BLACK_COLOR, WHITE_SMOKE_COLOR } from 'theme/themeStyles';
 import { Expense } from 'model/types';
 import { format } from 'date-fns';
-import { ExpenseData, Section } from './types';
+import { Section } from './types';
 import { orderedExpensesData } from './utils';
 
 interface ExpensesListProps {
     expenses: Expense[];
+    onEditPress: (item: Expense) => void;
 }
 
-const ExpensesList: FC<ExpensesListProps> = ({ expenses }) => {
+const ExpensesList: FC<ExpensesListProps> = ({ expenses, onEditPress }) => {
     const expensesData = useMemo(
         () => orderedExpensesData(expenses),
         [expenses],
     );
 
-    const getRenderItemKey = (item: ExpenseData) => item.id;
+    const getRenderItemKey = (item: Expense) => item.id;
 
-    const renderItem = ({ item }: ListRenderItemInfo<ExpenseData>) => (
-        <PressableOpacity>
-            <View style={styles.itemRow}>
-                <Text style={styles.item}>{item.title}</Text>
-                <Text style={styles.item}>{`$${item.amount.toFixed(2)}`}</Text>
-            </View>
-        </PressableOpacity>
-    );
+    const renderItem = ({ item }: ListRenderItemInfo<Expense>) => {
+        const onEdit = () => {
+            onEditPress(item);
+        };
+        return (
+            <PressableOpacity onPress={onEdit}>
+                <View style={styles.itemRow}>
+                    <Text style={styles.item}>{item.title}</Text>
+                    <Text style={styles.item}>{`$${item.amount.toFixed(
+                        2,
+                    )}`}</Text>
+                </View>
+            </PressableOpacity>
+        );
+    };
 
     const renderSectionHeader = ({
         section,
     }: {
-        section: SectionListData<ExpenseData, Section>;
+        section: SectionListData<Expense, Section>;
     }) => (
         <View style={styles.sectionHeader}>
             <Text style={styles.sectionText}>

@@ -2,7 +2,5 @@ import { Expense } from 'model/types';
 
 export interface Section {
     date: number;
-    data: ExpenseData[];
+    data: Expense[];
 }
-
-export type ExpenseData = Omit<Expense, 'date'>;

@@ -1,10 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import PressableOpacity from 'components/PressableOpacity';
 import { MenuButtons } from '../types';
 import { BLACK_COLOR, BLUE_COLOR } from 'theme/themeStyles';
 import { PlusIcon } from 'assets/icons/PlusIcon';
+import CreateEditExpenseModal, {
+    CreateEditExpenseModalRef,
+} from '../screens/homeScreen/components/CreateEditExpenseModal';
+import { Route } from 'screens/route';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const ICON_SIZE = 56;
@@ -12,6 +16,7 @@ const PLUS_BUTTON_LEFT_POSITION = (SCREEN_WIDTH - ICON_SIZE) / 2;
 
 const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
     const [activeTab, setActiveTab] = useState<MenuButtons>('Home');
+    const modalRef = useRef<CreateEditExpenseModalRef>(null);
 
     const onHomeTabPressed = () => {
         if (activeTab === 'Profile') {
@@ -63,22 +68,30 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
         );
     };
 
+    const showModal = () => {
+        //modalRef?.current?.open();
+        navigation.navigate(Route.ModalExpense);
+    };
+
     const renderPlusMenuButton = () => {
         return (
-            <PressableOpacity onPress={() => {}} style={styles.plusButton}>
+            <PressableOpacity onPress={showModal} style={styles.plusButton}>
                 <PlusIcon />
             </PressableOpacity>
         );
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.buttonsBox}>
-                {renderHomeMenuButton()}
-                {renderProfileMenuButton()}
+        <>
+            <View style={styles.container}>
+                <View style={styles.buttonsBox}>
+                    {renderHomeMenuButton()}
+                    {renderProfileMenuButton()}
+                </View>
+                {renderPlusMenuButton()}
             </View>
-            {renderPlusMenuButton()}
-        </View>
+            <CreateEditExpenseModal ref={modalRef} onClose={() => {}} />
+        </>
     );
 };
 

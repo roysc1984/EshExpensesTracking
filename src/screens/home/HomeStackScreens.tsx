@@ -22,7 +22,14 @@ const HomeStackScreens = () => {
             safeAreaInsets={{ bottom: 0, top: 0 }}
             tabBar={renderTabBar}
         >
-            <HomeStack.Screen name={Screen.Home} component={HomeScreen} />
+            <HomeStack.Screen
+                name={Screen.Home}
+                component={HomeScreen}
+                options={{
+                    headerTitle: 'name',
+                    headerShown: true,
+                }}
+            />
             <HomeStack.Screen name={Screen.Profile} component={ProfileScreen} />
         </HomeStack.Navigator>
     );

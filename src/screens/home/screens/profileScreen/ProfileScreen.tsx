@@ -5,7 +5,11 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Route } from 'screens/route';
-import { BLACK_COLOR, GRAY_SEPARATOR_COLOR } from 'theme/themeStyles';
+import {
+    BLACK_COLOR,
+    GRAY_SEPARATOR_COLOR,
+    WHITE_COLOR,
+} from 'theme/themeStyles';
 import { RootStackParamList } from 'screens/types';
 
 const ProfileScreen = () => {
@@ -33,7 +37,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 20,
+        paddingHorizontal: 20,
+        backgroundColor: WHITE_COLOR,
     },
     row: {
         paddingTop: 36,

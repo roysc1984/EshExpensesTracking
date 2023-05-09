@@ -3,7 +3,6 @@ import {
     KeyboardAvoidingView,
     Platform,
     StyleSheet,
-    Text,
     TextInput,
     View,
 } from 'react-native';
@@ -16,8 +15,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Route } from '../route';
-import PressableOpacity from 'components/PressableOpacity';
 import { RootStackParamList } from 'screens/types';
+import ActionButton from 'components/ActionButton';
 
 const INPUT_PLACEHOLDER = 'Enter Name';
 const BUTTON_TEXT = 'Login';
@@ -60,11 +59,7 @@ const WelcomeScreen = () => {
                     placeholder={INPUT_PLACEHOLDER}
                 />
                 <View style={styles.footer}>
-                    <PressableOpacity style={styles.button} onPress={onLogin}>
-                        <Text allowFontScaling={false} style={[styles.text]}>
-                            {BUTTON_TEXT}
-                        </Text>
-                    </PressableOpacity>
+                    <ActionButton onPress={onLogin} text={BUTTON_TEXT} />
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -77,6 +72,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
+        backgroundColor: WHITE_COLOR,
     },
     textInput: {
         fontSize: 14,
