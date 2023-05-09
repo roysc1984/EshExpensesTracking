@@ -31,7 +31,22 @@ const HomeScreen = () => {
         <SafeAreaView edges={['left', 'right', 'top']} style={styles.container}>
             {renderHeader()}
             {renderFiltersButton()}
-            <ExpensesList />
+            <ExpensesList
+                expenses={[
+                    {
+                        id: '1',
+                        title: 'Pizza',
+                        amount: 222,
+                        date: new Date('2022-08-11').getTime(),
+                    },
+                    {
+                        id: '2',
+                        title: 'Pizza2',
+                        amount: 123,
+                        date: new Date().getTime(),
+                    },
+                ]}
+            />
         </SafeAreaView>
     );
 };

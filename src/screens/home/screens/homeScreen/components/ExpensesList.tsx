@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
     ListRenderItemInfo,
     SectionList,
@@ -10,46 +10,19 @@ import {
 import PressableOpacity from 'components/PressableOpacity';
 import { BLACK_COLOR, WHITE_SMOKE_COLOR } from 'theme/themeStyles';
 import { Expense } from 'model/types';
-
-type ExpenseData = Omit<Expense, 'date'>;
-
-interface Section {
-    title: string;
-    data: ExpenseData[];
-}
+import { format } from 'date-fns';
+import { ExpenseData, Section } from './types';
+import { orderedExpensesData } from './utils';
 
 interface ExpensesListProps {
     expenses: Expense[];
 }
 
 const ExpensesList: FC<ExpensesListProps> = ({ expenses }) => {
-    const DATA = [
-        {
-            title: '30.07.2022',
-            data: [
-                { id: '1', title: 'Pizza', amount: 230 },
-                { id: '2', title: 'Pizza', amount: 230 },
-            ],
-        },
-        {
-            title: '28.07.2022',
-            data: [
-                { id: '3', title: 'Pizza', amount: 230.7667 },
-                { id: '4', title: 'Pizza', amount: 230 },
-            ],
-        },
-    ];
-
-    // const orederdExpenses = [
-    //     { id: '1', title: 'Pizza', amount: 222, date: '1.07.2022' },
-    //     { id: '2', title: 'Pizza2', amount: 123, date: '30.07.2022' },
-    //     { id: '3', title: 'Pizza3', amount: 5222, date: '6.07.2022' },
-    // ]
-    //     .map((item) => item.title)
-    //     .sort(
-    //         (a: string, b: string) =>
-    //             new Date(a).getTime() - new Date(b).getTime(),
-    //     );
+    const expensesData = useMemo(
+        () => orderedExpensesData(expenses),
+        [expenses],
+    );
 
     const getRenderItemKey = (item: ExpenseData) => item.id;
 
@@ -68,7 +41,9 @@ const ExpensesList: FC<ExpensesListProps> = ({ expenses }) => {
         section: SectionListData<ExpenseData, Section>;
     }) => (
         <View style={styles.sectionHeader}>
-            <Text style={styles.sectionText}>{section.title}</Text>
+            <Text style={styles.sectionText}>
+                {format(section.date, 'dd.MM.yyyy')}
+            </Text>
         </View>
     );
 
@@ -78,7 +53,7 @@ const ExpensesList: FC<ExpensesListProps> = ({ expenses }) => {
 
     return (
         <SectionList
-            sections={DATA}
+            sections={expensesData}
             keyExtractor={getRenderItemKey}
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
