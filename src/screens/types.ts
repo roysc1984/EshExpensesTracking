@@ -1,4 +1,6 @@
 export type RootStackParamList = {
-    Welcome: any;
-    HomeTabs: any;
+    Welcome: NoRouteParams;
+    HomeTabs: NoRouteParams;
 };
+
+export type NoRouteParams = undefined;

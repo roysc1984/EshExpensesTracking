@@ -7,29 +7,31 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { BLACK_COLOR, PURPLE_COLOR, WHITE_COLOR } from '../themeStyles';
+import {
+    BLACK_COLOR,
+    PURPLE_COLOR,
+    WHITE_COLOR,
+} from '../../theme/themeStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PressableOpacity from '../../components/PressableOpacity';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Route } from '../route';
-import { Screen } from '../screen';
+import PressableOpacity from 'components/PressableOpacity';
+import { RootStackParamList } from 'screens/types';
 
 const INPUT_PLACEHOLDER = 'Enter Name';
 const BUTTON_TEXT = 'Login';
 
 const WelcomeScreen = () => {
-    const navigation = useNavigation<StackNavigationProp<any>>();
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const [name, setName] = useState('');
 
     const navigateHome = useCallback(() => {
-        navigation.replace(Route.HomeTabs, {
-            screen: Screen.Home,
-        });
+        navigation.replace(Route.HomeTabs);
     }, [navigation]);
 
     useEffect(() => {
-        let isSubscribed = true;
+        let isSubscribed = false;
         if (isSubscribed) {
             navigateHome();
         }
@@ -83,18 +85,19 @@ const styles = StyleSheet.create({
         width: 255,
         height: 55,
         paddingHorizontal: 10,
-        borderRadius: 5,
+        borderRadius: 3,
         color: BLACK_COLOR,
     },
     button: {
         backgroundColor: PURPLE_COLOR,
         width: 148,
         height: 48,
-        borderRadius: 30,
+        borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
     },
     text: {
+        fontFamily: 'Helvetica',
         color: WHITE_COLOR,
         fontWeight: 'bold',
     },

@@ -10,7 +10,7 @@ import {
     NavigationContainer,
     useNavigationContainerRef,
 } from '@react-navigation/native';
-import { WHITE_COLOR } from './src/screens/themeStyles';
+import { WHITE_COLOR } from './src/theme/themeStyles';
 import HomeStackScreens from './src/screens/home/HomeStackScreens';
 
 const Stack = createStackNavigator<RootStackParamList>();
