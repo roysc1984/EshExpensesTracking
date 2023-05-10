@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-import { GestureResponderEvent, Pressable, PressableProps } from 'react-native';
-import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
-} from 'react-native-reanimated';
+import React, { FC, useState } from 'react';
+import {
+    GestureResponderEvent,
+    Pressable,
+    PressableProps,
+    Animated,
+} from 'react-native';
 
 const FADE_IN_ANIMATION_DURATION = 100;
 const FADE_OUT_ANIMATION_DURATION = 200;
@@ -18,22 +18,23 @@ const PressableOpacity: FC<PressableOpacityProps> = ({
     onPress,
     ...props
 }) => {
-    const animation = useSharedValue(1);
+    const [fadeAnim] = useState(new Animated.Value(1));
 
     const fadeIn = () => {
-        animation.value = withTiming(1, {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
             duration: FADE_IN_ANIMATION_DURATION,
-        });
-    };
-    const fadeOut = () => {
-        animation.value = withTiming(0, {
-            duration: FADE_OUT_ANIMATION_DURATION,
-        });
+            useNativeDriver: true,
+        }).start();
     };
 
-    const animatedStyle = useAnimatedStyle(() => {
-        return { opacity: animation.value };
-    });
+    const fadeOut = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: FADE_OUT_ANIMATION_DURATION,
+            useNativeDriver: true,
+        }).start();
+    };
 
     const onPressPressable = (event: GestureResponderEvent) => {
         onPress?.(event);
@@ -46,7 +47,13 @@ const PressableOpacity: FC<PressableOpacityProps> = ({
             onPressOut={fadeIn}
             {...props}
         >
-            <Animated.View style={animatedStyle}>{children}</Animated.View>
+            <Animated.View
+                style={{
+                    opacity: fadeAnim,
+                }}
+            >
+                {children}
+            </Animated.View>
         </Pressable>
     );
 };

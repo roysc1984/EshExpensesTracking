@@ -7,9 +7,19 @@ interface ActionButtonProps {
     text: string;
     onPress: () => void;
     style?: StyleProp<ViewStyle>;
+    disabled?: boolean;
 }
-const ActionButton: FC<ActionButtonProps> = ({ text, onPress, style }) => (
-    <PressableOpacity style={[styles.button, style]} onPress={onPress}>
+const ActionButton: FC<ActionButtonProps> = ({
+    text,
+    onPress,
+    style,
+    disabled,
+}) => (
+    <PressableOpacity
+        disabled={disabled}
+        style={[styles.button, style]}
+        onPress={onPress}
+    >
         <Text allowFontScaling={false} style={[styles.text]}>
             {text}
         </Text>

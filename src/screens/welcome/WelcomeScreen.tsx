@@ -59,7 +59,11 @@ const WelcomeScreen = () => {
                     placeholder={INPUT_PLACEHOLDER}
                 />
                 <View style={styles.footer}>
-                    <ActionButton onPress={onLogin} text={BUTTON_TEXT} />
+                    <ActionButton
+                        disabled={name.length === 0}
+                        onPress={onLogin}
+                        text={BUTTON_TEXT}
+                    />
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>

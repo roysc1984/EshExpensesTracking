@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler'; // Must be imported first!
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -29,47 +28,43 @@ const App = () => {
                     detachInactiveScreens={true}
                     screenOptions={{
                         headerShown: false,
-                        animationEnabled: false,
+                        animationEnabled: true,
                         cardStyle: {
-                            backgroundColor: WHITE_COLOR,
+                            backgroundColor: 'transparent',
                         },
-                        presentation: 'card',
                     }}
                 >
                     <Stack.Group>
                         <Stack.Screen
                             name={Route.Welcome}
                             component={WelcomeScreen}
-                            options={{
-                                animationEnabled: false,
-                            }}
                         />
                         <Stack.Screen
                             name={Route.HomeTabs}
                             component={HomeStackScreens}
-                            options={{
-                                animationEnabled: false,
-                            }}
                         />
                     </Stack.Group>
                     <Stack.Group
                         screenOptions={{
                             presentation: 'modal',
+                            cardStyle: {
+                                backgroundColor: WHITE_COLOR,
+                            },
                         }}
                     >
                         <Stack.Screen
                             name={Route.ModalExpense}
                             component={CreateEditExpenseModalScreen}
-                            options={{
-                                animationEnabled: true,
-                            }}
                         />
+                    </Stack.Group>
+                    <Stack.Group
+                        screenOptions={{
+                            presentation: 'transparentModal',
+                        }}
+                    >
                         <Stack.Screen
                             name={Route.ModalFilter}
                             component={FilterExpensesModalScreen}
-                            options={{
-                                animationEnabled: true,
-                            }}
                         />
                     </Stack.Group>
                 </Stack.Navigator>

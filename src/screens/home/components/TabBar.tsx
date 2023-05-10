@@ -3,11 +3,8 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import PressableOpacity from 'components/PressableOpacity';
 import { MenuButtons } from '../types';
-import { BLACK_COLOR, BLUE_COLOR } from 'theme/themeStyles';
+import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR } from 'theme/themeStyles';
 import { PlusIcon } from 'assets/icons/PlusIcon';
-import CreateEditExpenseModal, {
-    CreateEditExpenseModalRef,
-} from '../screens/homeScreen/components/CreateEditExpenseModal';
 import { Route } from 'screens/route';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -16,7 +13,6 @@ const PLUS_BUTTON_LEFT_POSITION = (SCREEN_WIDTH - ICON_SIZE) / 2;
 
 const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
     const [activeTab, setActiveTab] = useState<MenuButtons>('Home');
-    const modalRef = useRef<CreateEditExpenseModalRef>(null);
 
     const onHomeTabPressed = () => {
         if (activeTab === 'Profile') {
@@ -69,7 +65,6 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
     };
 
     const showModal = () => {
-        //modalRef?.current?.open();
         navigation.navigate(Route.ModalExpense);
     };
 
@@ -90,7 +85,6 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
                 </View>
                 {renderPlusMenuButton()}
             </View>
-            <CreateEditExpenseModal ref={modalRef} onClose={() => {}} />
         </>
     );
 };
@@ -100,6 +94,7 @@ const styles = StyleSheet.create({
         borderTopColor: BLACK_COLOR + '80',
         borderTopWidth: 0.2,
         height: 90,
+        backgroundColor: WHITE_COLOR,
     },
     buttonsBox: {
         height: '100%',

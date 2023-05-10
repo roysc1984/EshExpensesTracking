@@ -5,9 +5,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BLACK_COLOR, GRAY_COLOR, WHITE_COLOR } from 'theme/themeStyles';
 import ExpensesList from './components/ExpensesList';
-import CreateEditExpenseModal, {
-    CreateEditExpenseModalRef,
-} from './components/CreateEditExpenseModal';
 import { Expense } from 'model/types';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -18,7 +15,6 @@ const TITLE = 'Total Expenses:';
 const FILTER_BUTTON_TEXT = 'Filters';
 
 const HomeScreen = () => {
-    const modalRef = useRef<CreateEditExpenseModalRef>(null);
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     const total = 1024.0566;
@@ -30,7 +26,6 @@ const HomeScreen = () => {
     );
 
     const showModalEdit = (expense: Expense) => {
-        //  modalRef?.current?.open(expense);
         navigation.navigate(Route.ModalExpense, {
             expense,
         });
@@ -72,7 +67,6 @@ const HomeScreen = () => {
                     onEditPress={showModalEdit}
                 />
             </View>
-            <CreateEditExpenseModal ref={modalRef} onClose={() => {}} />
         </SafeAreaView>
     );
 };
