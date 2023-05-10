@@ -13,9 +13,12 @@ import {
 import { RootStackParamList } from 'screens/types';
 import { useDispatch } from 'react-redux';
 import { removeUserName } from 'store/slices/user/reducer';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
 
 const ProfileScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const { expenses } = useSelector((state: RootState) => state.expenses);
     const dispatch = useDispatch();
 
     const signOut = () => {
@@ -27,7 +30,7 @@ const ProfileScreen = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.row}>
                 <Text style={styles.title}>Total Expenses Items</Text>
-                <Text style={styles.totalText}>{0}</Text>
+                <Text style={styles.totalText}>{expenses.length}</Text>
             </View>
             <PressableOpacity onPress={signOut} style={styles.row}>
                 <Text style={styles.title}>Sign out</Text>

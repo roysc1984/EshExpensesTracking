@@ -6,6 +6,7 @@ import {
     Text,
     View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { BLACK_COLOR } from 'theme/themeStyles';
 import { CloseXIcon } from 'assets/icons/CloseXIcon';
 import PressableOpacity from 'components/PressableOpacity';
@@ -18,6 +19,10 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import ExpenseInputs from './components/ExpenseInputs';
+import { addExpense, updateExpense } from 'store/slices/expenses/reducer';
+import { getUuid } from 'common/utils';
+import { convertDate, setStrDate } from './utils';
+import { ExpenseInput } from './types';
 
 const EDIT_TEXT = 'Edit Expense';
 const CREATE_TEXT = 'Create Expense';
@@ -27,10 +32,41 @@ const BUTTON_TEXT_CREATE = 'Create';
 const CreateEditExpenseModalScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const route = useRoute<CreateEditExpenseModalScreenProps['route']>();
-    const [expenseData, setExpenseData] = useState(
-        route.params?.expense ?? undefined,
+    const dispatch = useDispatch();
+    const [expenseData, setExpenseData] = useState<ExpenseInput | undefined>(
+        route.params?.expense ? setStrDate(route.params.expense) : undefined,
     );
+
     const close = () => navigation.goBack();
+
+    const onAddExpense = () => {
+        if (expenseData) {
+            dispatch(
+                addExpense({
+                    expense: {
+                        ...expenseData,
+                        id: getUuid().toString(),
+                        date: convertDate(expenseData.date),
+                    },
+                }),
+            );
+            close();
+        }
+    };
+
+    const onEditExpense = () => {
+        if (expenseData) {
+            dispatch(
+                updateExpense({
+                    expense: {
+                        ...expenseData,
+                        date: convertDate(expenseData.date),
+                    },
+                }),
+            );
+            close();
+        }
+    };
 
     return (
         <KeyboardAvoidingView
@@ -51,8 +87,9 @@ const CreateEditExpenseModalScreen = () => {
                     />
                 </View>
                 <ActionButton
+                    disabled={!expenseData?.amount || !expenseData?.date}
                     style={styles.button}
-                    onPress={() => {}}
+                    onPress={expenseData?.id ? onEditExpense : onAddExpense}
                     text={expenseData ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}
                 />
             </View>

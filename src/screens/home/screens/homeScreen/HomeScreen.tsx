@@ -1,7 +1,7 @@
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { SlidersIcon } from 'assets/icons/SlidersIcon';
 import PressableOpacity from 'components/PressableOpacity';
-import React, { useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BLACK_COLOR, GRAY_COLOR, WHITE_COLOR } from 'theme/themeStyles';
 import ExpensesList from './components/ExpensesList';
@@ -10,18 +10,27 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'screens/types';
 import { Route } from 'screens/route';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
 
 const TITLE = 'Total Expenses:';
 const FILTER_BUTTON_TEXT = 'Filters';
 
 const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const { expenses } = useSelector((state: RootState) => state.expenses);
 
-    const total = 1024.0566;
+    const getTotal = () => {
+        return expenses.reduce(
+            (total, expense) => total + (expense?.amount ?? 0),
+            0,
+        );
+    };
+
     const renderHeader = () => (
         <View style={styles.header}>
             <Text style={styles.titleHeader}>{TITLE}</Text>
-            <Text style={styles.sumHeader}>{`$${total.toFixed(2)}`}</Text>
+            <Text style={styles.sumHeader}>{`$${getTotal().toFixed(2)}`}</Text>
         </View>
     );
 
@@ -49,23 +58,7 @@ const HomeScreen = () => {
             {renderHeader()}
             {renderFiltersButton()}
             <View>
-                <ExpensesList
-                    expenses={[
-                        {
-                            id: '1',
-                            title: 'Pizza',
-                            amount: 222,
-                            date: new Date('2022-08-11').getTime(),
-                        },
-                        {
-                            id: '2',
-                            title: 'Pizza2',
-                            amount: 123,
-                            date: new Date().getTime(),
-                        },
-                    ]}
-                    onEditPress={showModalEdit}
-                />
+                <ExpensesList expenses={expenses} onEditPress={showModalEdit} />
             </View>
         </SafeAreaView>
     );

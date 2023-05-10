@@ -10,9 +10,9 @@ import {
 import PressableOpacity from 'components/PressableOpacity';
 import { BLACK_COLOR, WHITE_SMOKE_COLOR } from 'theme/themeStyles';
 import { Expense } from 'model/types';
-import { format } from 'date-fns';
 import { Section } from './types';
 import { orderedExpensesData } from './utils';
+import { formatDate } from 'common/utils';
 
 interface ExpensesListProps {
     expenses: Expense[];
@@ -35,9 +35,9 @@ const ExpensesList: FC<ExpensesListProps> = ({ expenses, onEditPress }) => {
             <PressableOpacity onPress={onEdit}>
                 <View style={styles.itemRow}>
                     <Text style={styles.item}>{item.title}</Text>
-                    <Text style={styles.item}>{`$${item.amount.toFixed(
-                        2,
-                    )}`}</Text>
+                    <Text style={styles.item}>
+                        {item.amount ? `$${item.amount.toFixed(2)}` : ''}
+                    </Text>
                 </View>
             </PressableOpacity>
         );
@@ -49,9 +49,7 @@ const ExpensesList: FC<ExpensesListProps> = ({ expenses, onEditPress }) => {
         section: SectionListData<Expense, Section>;
     }) => (
         <View style={styles.sectionHeader}>
-            <Text style={styles.sectionText}>
-                {format(section.date, 'dd.MM.yyyy')}
-            </Text>
+            <Text style={styles.sectionText}>{formatDate(section.date)}</Text>
         </View>
     );
 
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     },
     itemSeparator: {
         backgroundColor: BLACK_COLOR,
-        height: 0.5,
+        height: 0.3,
     },
 });
 

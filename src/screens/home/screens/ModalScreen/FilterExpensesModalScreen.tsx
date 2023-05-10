@@ -17,7 +17,7 @@ import { StackNavigationProp, useCardAnimation } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from 'screens/types';
 import ExpenseInputs from './components/ExpenseInputs';
-import { Expense } from 'model/types';
+import { ExpenseInput } from './types';
 
 const BUTTON_TEXT = 'Filter';
 const TITLE = 'Filters';
@@ -28,7 +28,7 @@ const FilterExpensesModalScreen = () => {
     const { current } = useCardAnimation();
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-    const [expenseData, setExpenseData] = useState<Expense | undefined>(
+    const [expenseData, setExpenseData] = useState<ExpenseInput | undefined>(
         undefined,
     );
     const close = () => navigation.goBack();
@@ -47,6 +47,10 @@ const FilterExpensesModalScreen = () => {
         </View>
     );
 
+    const onFilter = () => {
+        // add action here
+        close();
+    };
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -82,7 +86,7 @@ const FilterExpensesModalScreen = () => {
                         />
                         <ActionButton
                             style={styles.button}
-                            onPress={() => {}}
+                            onPress={onFilter}
                             text={BUTTON_TEXT}
                         />
                     </View>

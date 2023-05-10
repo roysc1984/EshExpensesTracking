@@ -1,30 +1,19 @@
 import FloatingLabelInput from 'components/FloatingLabelInput';
-import { Expense } from 'model/types';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { BLACK_COLOR, LIGHT_GRAY_COLOR } from 'theme/themeStyles';
-import { format, isValid } from 'date-fns';
-import { showAmount } from './utils';
+import { showAmount } from '../utils';
+import { ExpenseInput } from '../types';
 
 interface ExpenseInputsProps {
-    expense?: Expense;
-    changeExpense: (expense: Expense) => void;
+    expense?: ExpenseInput;
+    changeExpense: (expense: ExpenseInput) => void;
 }
 
 const ExpenseInputs: FC<ExpenseInputsProps> = ({
-    expense = {} as Expense,
+    expense = {} as ExpenseInput,
     changeExpense,
 }) => {
-    const [showDate, setShowDate] = useState(
-        expense.date ? format(new Date(expense.date), 'dd.MM.yyyy') : '',
-    );
-
-    useEffect(() => {
-        if (!expense.date) {
-            setShowDate('');
-        }
-    }, [expense.date]);
-
     const onChangeAmount = (value: string) => {
         changeExpense({
             ...expense,
@@ -35,13 +24,7 @@ const ExpenseInputs: FC<ExpenseInputsProps> = ({
     };
 
     const onChangeDate = (value: string) => {
-        setShowDate(value);
-        const newDate = new Date(value.split('.').join('-'));
-        if (isValid(newDate)) {
-            changeExpense({ ...expense, date: newDate.getTime() });
-        } else {
-            changeExpense({ ...expense, date: 0 });
-        }
+        changeExpense({ ...expense, date: value });
     };
 
     const onChangeTitle = (value: string) => {
@@ -70,7 +53,7 @@ const ExpenseInputs: FC<ExpenseInputsProps> = ({
             />
             <FloatingLabelInput
                 style={styles.textInput}
-                value={showDate}
+                value={expense.date ? `${expense.date}` : ''}
                 onChangeText={onChangeDate}
                 placeholder={'Date'}
                 keyboardType={'numeric'}
