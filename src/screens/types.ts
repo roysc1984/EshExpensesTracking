@@ -1,3 +1,4 @@
+import { StackScreenProps } from '@react-navigation/stack';
 import { Expense } from 'model/types';
 
 export type RootStackParamList = {
@@ -8,3 +9,8 @@ export type RootStackParamList = {
 };
 
 export type NoRouteParams = undefined;
+
+export type CreateEditExpenseModalScreenProps = StackScreenProps<
+    RootStackParamList,
+    'ModalExpense'
+>;

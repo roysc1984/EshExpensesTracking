@@ -1,40 +1,49 @@
-import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { BLACK_COLOR } from 'theme/themeStyles';
 import { CloseXIcon } from 'assets/icons/CloseXIcon';
-import { Expense } from 'model/types';
 import PressableOpacity from 'components/PressableOpacity';
 import ActionButton from 'components/ActionButton';
+import { useRoute } from '@react-navigation/native';
+import {
+    CreateEditExpenseModalScreenProps,
+    RootStackParamList,
+} from 'screens/types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import ExpenseInputs from './components/ExpenseInputs';
 
-export interface CreateEditExpenseModalParams {
-    onClose: () => void;
-    expenseData?: Expense;
-}
-
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const EDIT_TEXT = 'Edit Expense';
 const CREATE_TEXT = 'Create Expense';
 const BUTTON_TEXT_SAVE = 'Save';
 const BUTTON_TEXT_CREATE = 'Create';
 
-const CreateEditExpenseModalScreen = ({
-    navigation,
-    onClose,
-    expenseData,
-}: any) => {
+const CreateEditExpenseModalScreen = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const route = useRoute<CreateEditExpenseModalScreenProps['route']>();
+    const [expenseData, setExpenseData] = useState(
+        route.params?.expense ?? undefined,
+    );
     const close = () => navigation.goBack();
+
     return (
         <View style={styles.container}>
             <PressableOpacity onPress={close} style={styles.closeButton}>
                 <CloseXIcon />
             </PressableOpacity>
             <View style={styles.content}>
-                <Text style={styles.title}>
-                    {expenseData ? EDIT_TEXT : CREATE_TEXT}
-                </Text>
+                <View>
+                    <Text style={styles.title}>
+                        {expenseData ? EDIT_TEXT : CREATE_TEXT}
+                    </Text>
+                    <ExpenseInputs
+                        expense={expenseData}
+                        changeExpense={setExpenseData}
+                    />
+                </View>
                 <ActionButton
                     style={styles.button}
-                    onPress={onClose}
+                    onPress={() => {}}
                     text={expenseData ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}
                 />
             </View>
@@ -44,7 +53,7 @@ const CreateEditExpenseModalScreen = ({
 
 const styles = StyleSheet.create({
     container: {
-        height: SCREEN_HEIGHT - 50,
+        flex: 1,
         borderRadius: 22,
     },
     content: {

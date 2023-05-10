@@ -75,7 +75,9 @@ const styles = StyleSheet.create({
         backgroundColor: WHITE_COLOR,
     },
     textInput: {
+        fontFamily: 'Helvetica',
         fontSize: 14,
+        fontWeight: '400',
         borderColor: PURPLE_COLOR,
         borderWidth: 1,
         width: 255,

@@ -5,3 +5,5 @@ export const BLUE_COLOR = '#455EFF';
 export const GRAY_COLOR = '#D9D9D9';
 export const WHITE_SMOKE_COLOR = '#F4EEEE';
 export const GRAY_SEPARATOR_COLOR = '#DCDCDC';
+export const LIGHT_GRAY_COLOR = '#BFBFBF';
+export const SUVA_GRAY_COLOR = '#8C8C8C';

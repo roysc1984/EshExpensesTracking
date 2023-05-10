@@ -1,31 +1,51 @@
-import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import { BLACK_COLOR } from 'theme/themeStyles';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { BLACK_COLOR, BLUE_COLOR } from 'theme/themeStyles';
 import { CloseXIcon } from 'assets/icons/CloseXIcon';
-//import { Expense } from 'model/types';
 import PressableOpacity from 'components/PressableOpacity';
 import ActionButton from 'components/ActionButton';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from 'screens/types';
+import ExpenseInputs from './components/ExpenseInputs';
+import { Expense } from 'model/types';
 
-export interface FilterExpensesModalScreenParams {
-    onClose: () => void;
-}
-
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const BUTTON_TEXT = 'Filter';
 const TITLE = 'Filters';
+const CLEAN_BUTTON = 'clean';
 
-const FilterExpensesModalScreen = ({ navigation, onClose }: any) => {
+const FilterExpensesModalScreen = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const [expenseData, setExpenseData] = useState<Expense | undefined>(
+        undefined,
+    );
     const close = () => navigation.goBack();
-    return (
-        <View style={styles.container}>
-            <PressableOpacity onPress={close} style={styles.closeButton}>
+
+    const clean = () => setExpenseData(undefined);
+
+    const renderHeader = () => (
+        <View style={styles.headerButtons}>
+            <PressableOpacity onPress={clean}>
+                <Text style={styles.clean}>{CLEAN_BUTTON}</Text>
+            </PressableOpacity>
+            <Text style={styles.title}>{TITLE}</Text>
+            <PressableOpacity onPress={close}>
                 <CloseXIcon />
             </PressableOpacity>
+        </View>
+    );
+
+    return (
+        <View style={styles.container}>
+            {renderHeader()}
             <View style={styles.content}>
-                <Text style={styles.title}>{TITLE}</Text>
+                <ExpenseInputs
+                    expense={expenseData}
+                    changeExpense={setExpenseData}
+                />
                 <ActionButton
                     style={styles.button}
-                    onPress={onClose}
+                    onPress={() => {}}
                     text={BUTTON_TEXT}
                 />
             </View>
@@ -35,7 +55,7 @@ const FilterExpensesModalScreen = ({ navigation, onClose }: any) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: SCREEN_HEIGHT - 50,
+        flex: 1,
         borderRadius: 22,
     },
     content: {
@@ -51,13 +71,21 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingVertical: 8,
     },
-    closeButton: {
-        alignSelf: 'flex-end',
+    headerButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         paddingTop: 10,
         paddingHorizontal: 20,
+        alignItems: 'center',
     },
     button: {
         alignSelf: 'center',
+    },
+    clean: {
+        alignSelf: 'center',
+        fontFamily: 'Helvetica',
+        color: BLUE_COLOR,
+        fontWeight: '400',
     },
 });
 
