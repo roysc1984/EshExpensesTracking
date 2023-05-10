@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 import { BLACK_COLOR } from 'theme/themeStyles';
 import { CloseXIcon } from 'assets/icons/CloseXIcon';
 import PressableOpacity from 'components/PressableOpacity';
@@ -27,7 +33,10 @@ const CreateEditExpenseModalScreen = () => {
     const close = () => navigation.goBack();
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+        >
             <PressableOpacity onPress={close} style={styles.closeButton}>
                 <CloseXIcon />
             </PressableOpacity>
@@ -47,7 +56,7 @@ const CreateEditExpenseModalScreen = () => {
                     text={expenseData ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}
                 />
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -59,7 +68,7 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         justifyContent: 'space-between',
-        paddingBottom: 60,
+        paddingBottom: 65,
     },
     title: {
         alignSelf: 'center',

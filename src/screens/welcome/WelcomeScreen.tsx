@@ -17,31 +17,35 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Route } from '../route';
 import { RootStackParamList } from 'screens/types';
 import ActionButton from 'components/ActionButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { setUserName } from 'store/slices/user/reducer';
 
 const INPUT_PLACEHOLDER = 'Enter Name';
 const BUTTON_TEXT = 'Login';
 
 const WelcomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-    const [name, setName] = useState('');
+    const dispatch = useDispatch();
+    const { name } = useSelector((state: RootState) => state.userName);
+    const [inputName, setInputName] = useState('');
 
     const navigateHome = useCallback(() => {
         navigation.replace(Route.HomeTabs);
     }, [navigation]);
 
     useEffect(() => {
-        let isSubscribed = false;
-        if (isSubscribed) {
+        if (name) {
             navigateHome();
         }
-    }, [navigateHome]);
+    }, [navigateHome, name]);
 
     const onChangeName = (value: string) => {
-        setName(value);
+        setInputName(value);
     };
 
     const onLogin = () => {
-        // set name stored in AsyncStorage
+        dispatch(setUserName({ name: inputName }));
         navigateHome();
     };
 
@@ -54,13 +58,13 @@ const WelcomeScreen = () => {
                 <View />
                 <TextInput
                     style={styles.textInput}
-                    value={name}
+                    value={inputName}
                     onChangeText={onChangeName}
                     placeholder={INPUT_PLACEHOLDER}
                 />
                 <View style={styles.footer}>
                     <ActionButton
-                        disabled={name.length === 0}
+                        disabled={inputName.length === 0}
                         onPress={onLogin}
                         text={BUTTON_TEXT}
                     />

@@ -11,12 +11,15 @@ import {
     WHITE_COLOR,
 } from 'theme/themeStyles';
 import { RootStackParamList } from 'screens/types';
+import { useDispatch } from 'react-redux';
+import { removeUserName } from 'store/slices/user/reducer';
 
 const ProfileScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const dispatch = useDispatch();
 
     const signOut = () => {
-        // clear storage
+        dispatch(removeUserName());
         navigation.replace(Route.Welcome);
     };
 

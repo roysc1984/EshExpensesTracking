@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {
     Animated,
+    KeyboardAvoidingView,
+    Platform,
     Pressable,
     StyleSheet,
     Text,
@@ -46,7 +48,10 @@ const FilterExpensesModalScreen = () => {
     );
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+        >
             <Pressable
                 style={[StyleSheet.absoluteFill, styles.backDrop]}
                 onPress={close}
@@ -83,21 +88,19 @@ const FilterExpensesModalScreen = () => {
                     </View>
                 </View>
             </Animated.View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
     },
     viewAnimated: {
         width: '100%',
     },
     viewContainer: {
-        flex: 1,
         backgroundColor: WHITE_COLOR,
         borderRadius: 22,
     },
