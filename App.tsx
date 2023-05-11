@@ -11,8 +11,8 @@ import {
 } from '@react-navigation/native';
 import { WHITE_COLOR } from './src/theme/themeStyles';
 import HomeStackScreens from './src/screens/home/HomeStackScreens';
-import CreateEditExpenseModalScreen from 'screens/home/screens/ModalScreen/CreateEditExpenseModalScreen';
-import FilterExpensesModalScreen from 'screens/home/screens/ModalScreen/FilterExpensesModalScreen';
+import CreateEditExpenseModalScreen from 'screens/home/screens/modalsScreen/CreateEditExpenseModalScreen';
+import FilterExpensesModalScreen from 'screens/home/screens/modalsScreen/FilterExpensesModalScreen';
 import { store, persistor } from 'store/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';

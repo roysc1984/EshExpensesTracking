@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import 'react-native';
-import { parseDate } from 'screens/home/screens/ModalScreen/utils';
+import { parseDate } from 'screens/home/screens/modalsScreen/utils';
 import { orderedExpensesSectionData } from 'screens/home/screens/homeScreen/components/utils';
 
 describe('test create section data from expenses', () => {
