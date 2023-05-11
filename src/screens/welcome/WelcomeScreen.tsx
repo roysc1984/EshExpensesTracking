@@ -18,8 +18,8 @@ import { Route } from '../route';
 import { RootStackParamList } from 'screens/types';
 import ActionButton from 'components/ActionButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { setUserName } from 'store/slices/user/reducer';
+import { selectUserName } from 'store/slices/user/selectors';
 
 const INPUT_PLACEHOLDER = 'Enter Name';
 const BUTTON_TEXT = 'Login';
@@ -27,7 +27,7 @@ const BUTTON_TEXT = 'Login';
 const WelcomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const dispatch = useDispatch();
-    const { name } = useSelector((state: RootState) => state.userName);
+    const { name } = useSelector(selectUserName);
     const [inputName, setInputName] = useState('');
 
     const navigateHome = useCallback(() => {
