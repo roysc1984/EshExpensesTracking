@@ -16,6 +16,9 @@ import { useSelector } from 'react-redux';
 import { selectExpensesTotalItems } from 'store/slices/expenses/selectors';
 import { clearAll } from 'store/actions/actions';
 
+const SIGN_OUT_TEXT = 'Sign out';
+const TOTAL_TEXT = 'Total Expenses Items';
+
 const ProfileScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const expensesTotalItems = useSelector(selectExpensesTotalItems);
@@ -29,11 +32,11 @@ const ProfileScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.row}>
-                <Text style={styles.title}>Total Expenses Items</Text>
+                <Text style={styles.title}>{TOTAL_TEXT}</Text>
                 <Text style={styles.totalText}>{expensesTotalItems}</Text>
             </View>
             <PressableOpacity onPress={signOut} style={styles.row}>
-                <Text style={styles.title}>Sign out</Text>
+                <Text style={styles.title}>{SIGN_OUT_TEXT}</Text>
             </PressableOpacity>
         </SafeAreaView>
     );
