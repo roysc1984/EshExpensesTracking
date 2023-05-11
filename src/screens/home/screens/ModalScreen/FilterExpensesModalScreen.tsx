@@ -49,11 +49,11 @@ const FilterExpensesModalScreen = () => {
 
     const renderHeader = () => (
         <View style={styles.headerButtons}>
-            <PressableOpacity onPress={clean}>
+            <PressableOpacity onPress={clean} style={styles.headerButton}>
                 <Text style={styles.clean}>{CLEAN_BUTTON}</Text>
             </PressableOpacity>
             <Text style={styles.title}>{TITLE}</Text>
-            <PressableOpacity onPress={close}>
+            <PressableOpacity onPress={close} style={styles.headerButton}>
                 <CloseXIcon />
             </PressableOpacity>
         </View>
@@ -106,6 +106,7 @@ const FilterExpensesModalScreen = () => {
                     {renderHeader()}
                     <View style={[styles.content, { height: height * 0.55 }]}>
                         <ExpenseInputs
+                            style={styles.inputs}
                             expense={expenseData}
                             changeExpense={setExpenseData}
                         />
@@ -164,6 +165,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Helvetica',
         color: BLUE_COLOR,
         fontWeight: '400',
+    },
+    headerButton: {
+        padding: 4,
+    },
+    inputs: {
+        marginHorizontal: 24,
     },
 });
 
