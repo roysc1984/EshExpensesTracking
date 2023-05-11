@@ -23,7 +23,7 @@ import {
     setFilterExpenseData,
     clearFilterExpenseData,
 } from 'store/slices/expenses/reducer';
-import { convertDate, setStrDateFilter } from './utils';
+import { convertDate, isValidDate, setStrDateFilter } from './utils';
 import { selectExpensesFilterData } from 'store/slices/expenses/selectors';
 
 const BUTTON_TEXT = 'Filter';
@@ -65,9 +65,10 @@ const FilterExpensesModalScreen = () => {
                 setFilterExpenseData({
                     filterExpense: {
                         ...expenseData,
-                        date: expenseData.date
-                            ? convertDate(expenseData.date)
-                            : undefined,
+                        date:
+                            expenseData.date && isValidDate(expenseData.date)
+                                ? convertDate(expenseData.date)
+                                : undefined,
                     },
                 }),
             );

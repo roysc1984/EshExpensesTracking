@@ -12,9 +12,17 @@ export const showAmount = (amount?: number) => {
     }
 };
 
-export const convertDate = (date: string) => {
+const parseDate = (date: string) => {
     const newDate = date?.split('.').join('/');
-    const parsedDate = parse(newDate, 'P', new Date());
+    return parse(newDate, 'P', new Date());
+};
+export const isValidDate = (date: string) => {
+    const parsedDate = parseDate(date);
+    return isValid(parsedDate);
+};
+
+export const convertDate = (date: string) => {
+    const parsedDate = parseDate(date);
     if (isValid(parsedDate)) {
         return new Date(format(parsedDate, 'yyyy-MM-dd')).getTime();
     } else {
