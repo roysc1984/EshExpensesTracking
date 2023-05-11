@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import {
     StyleSheet,
     Text,
@@ -16,20 +16,12 @@ const FloatingLabelInput: FC<FloatingLabelInputProps> = ({
     label,
     ...props
 }) => {
-    const [isFocused, setIsFocused] = useState(false);
-    const handleFocus = () => setIsFocused(true);
-    const handleBlur = () => setIsFocused(false);
     return (
         <View>
-            {isFocused && props.value && props.value.length > 0 && (
+            {props.value && props.value.length > 0 && (
                 <Text style={[styles.label]}>{label}</Text>
             )}
-            <TextInput
-                returnKeyType="done"
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                {...props}
-            />
+            <TextInput returnKeyType="done" {...props} />
         </View>
     );
 };
