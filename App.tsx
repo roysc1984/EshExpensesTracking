@@ -13,8 +13,9 @@ import { WHITE_COLOR } from './src/theme/themeStyles';
 import HomeStackScreens from './src/screens/home/HomeStackScreens';
 import CreateEditExpenseModalScreen from 'screens/home/screens/ModalScreen/CreateEditExpenseModalScreen';
 import FilterExpensesModalScreen from 'screens/home/screens/ModalScreen/FilterExpensesModalScreen';
-import { store } from 'store/store';
+import { store, persistor } from 'store/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -23,56 +24,58 @@ const App = () => {
 
     return (
         <Provider store={store}>
-            <SafeAreaProvider style={styles.appContainer}>
-                <NavigationContainer ref={navigationRef}>
-                    <StatusBar />
-                    <Stack.Navigator
-                        initialRouteName={Route.Welcome}
-                        detachInactiveScreens={true}
-                        screenOptions={{
-                            headerShown: false,
-                            animationEnabled: true,
-                            cardStyle: {
-                                backgroundColor: 'transparent',
-                            },
-                        }}
-                    >
-                        <Stack.Group>
-                            <Stack.Screen
-                                name={Route.Welcome}
-                                component={WelcomeScreen}
-                            />
-                            <Stack.Screen
-                                name={Route.HomeTabs}
-                                component={HomeStackScreens}
-                            />
-                        </Stack.Group>
-                        <Stack.Group
+            <PersistGate loading={null} persistor={persistor}>
+                <SafeAreaProvider style={styles.appContainer}>
+                    <NavigationContainer ref={navigationRef}>
+                        <StatusBar />
+                        <Stack.Navigator
+                            initialRouteName={Route.Welcome}
+                            detachInactiveScreens={true}
                             screenOptions={{
-                                presentation: 'modal',
+                                headerShown: false,
+                                animationEnabled: true,
                                 cardStyle: {
-                                    backgroundColor: WHITE_COLOR,
+                                    backgroundColor: 'transparent',
                                 },
                             }}
                         >
-                            <Stack.Screen
-                                name={Route.ModalExpense}
-                                component={CreateEditExpenseModalScreen}
-                            />
-                        </Stack.Group>
-                        <Stack.Group
-                            screenOptions={{
-                                presentation: 'transparentModal',
-                            }}
-                        >
-                            <Stack.Screen
-                                name={Route.ModalFilter}
-                                component={FilterExpensesModalScreen}
-                            />
-                        </Stack.Group>
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </SafeAreaProvider>
+                            <Stack.Group>
+                                <Stack.Screen
+                                    name={Route.Welcome}
+                                    component={WelcomeScreen}
+                                />
+                                <Stack.Screen
+                                    name={Route.HomeTabs}
+                                    component={HomeStackScreens}
+                                />
+                            </Stack.Group>
+                            <Stack.Group
+                                screenOptions={{
+                                    presentation: 'modal',
+                                    cardStyle: {
+                                        backgroundColor: WHITE_COLOR,
+                                    },
+                                }}
+                            >
+                                <Stack.Screen
+                                    name={Route.ModalExpense}
+                                    component={CreateEditExpenseModalScreen}
+                                />
+                            </Stack.Group>
+                            <Stack.Group
+                                screenOptions={{
+                                    presentation: 'transparentModal',
+                                }}
+                            >
+                                <Stack.Screen
+                                    name={Route.ModalFilter}
+                                    component={FilterExpensesModalScreen}
+                                />
+                            </Stack.Group>
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </SafeAreaProvider>
+            </PersistGate>
         </Provider>
     );
 };
