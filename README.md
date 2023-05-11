@@ -1,4 +1,4 @@
-# EshExpensesTracking
+# Expenses Tracking
 
 ## Setup
 
