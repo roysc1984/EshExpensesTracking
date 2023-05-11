@@ -2,7 +2,7 @@ import FloatingLabelInput from 'components/FloatingLabelInput';
 import React, { FC } from 'react';
 import { StyleSheet, View, StyleProp, ViewStyle } from 'react-native';
 import { BLACK_COLOR, LIGHT_GRAY_COLOR } from 'theme/themeStyles';
-import { showAmount } from '../utils';
+import { removeDollarChar, showAmount } from '../utils';
 import { ExpenseInput } from '../types';
 
 interface ExpenseInputsProps {
@@ -19,9 +19,7 @@ const ExpenseInputs: FC<ExpenseInputsProps> = ({
     const onChangeAmount = (value: string) => {
         changeExpense({
             ...expense,
-            amount: parseFloat(
-                value.charAt(0) === '$' ? value.slice(1) : value,
-            ),
+            amount: removeDollarChar(value),
         });
     };
 
@@ -49,7 +47,6 @@ const ExpenseInputs: FC<ExpenseInputsProps> = ({
                 onChangeText={onChangeAmount}
                 placeholder={'Amount'}
                 keyboardType={'numeric'}
-                maxLength={10}
                 returnKeyType="done"
                 label="Amount"
             />

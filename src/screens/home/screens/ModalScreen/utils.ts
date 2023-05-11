@@ -2,13 +2,11 @@ import { formatDate } from 'common/utils';
 import { format, isValid, parse } from 'date-fns';
 import { Expense, FilterExpenseData } from 'model/types';
 
-export const showAmount = (amount?: number) => {
-    if (!amount) return '';
-    const amountStr = `${amount}`;
-    if (amountStr && amountStr.charAt(0) === '$') {
-        return amountStr;
-    } else if (amountStr) {
-        return `$${amountStr}`;
+export const showAmount = (amount?: string) => {
+    if (amount && amount.charAt(0) === '$') {
+        return amount;
+    } else if (amount) {
+        return `$${amount}`;
     }
 };
 
@@ -30,10 +28,14 @@ export const convertDate = (date: string) => {
     }
 };
 
+export const convertMount = (amount?: string) =>
+    amount ? parseFloat(amount) : 0;
+
 export const setStrDate = (expense: Expense) => {
     return {
         ...expense,
         date: expense.date ? formatDate(expense.date) : '',
+        amount: expense.amount ? `${expense.amount}` : '',
     };
 };
 
@@ -44,3 +46,6 @@ export const setStrDateFilter = (expense: FilterExpenseData) => {
         id: 'filter',
     };
 };
+
+export const removeDollarChar = (value: string) =>
+    value.charAt(0) === '$' ? value.slice(1) : value;

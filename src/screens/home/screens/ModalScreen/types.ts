@@ -1,5 +1,6 @@
-import { Expense } from 'model/types';
-
-export interface ExpenseInput extends Omit<Expense, 'date'> {
+export interface ExpenseInput {
+    id: string;
+    title: string;
+    amount: string;
     date: string;
 }

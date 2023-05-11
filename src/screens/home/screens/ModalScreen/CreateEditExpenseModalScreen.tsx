@@ -25,7 +25,7 @@ import {
     updateExpense,
 } from 'store/slices/expenses/reducer';
 import { getUuid } from 'common/utils';
-import { convertDate, setStrDate } from './utils';
+import { convertDate, convertMount, setStrDate } from './utils';
 import { ExpenseInput } from './types';
 
 const EDIT_TEXT = 'Edit Expense';
@@ -54,6 +54,7 @@ const CreateEditExpenseModalScreen = () => {
                         ...expenseData,
                         id: getUuid().toString(),
                         date: convertDate(expenseData.date),
+                        amount: convertMount(expenseData.amount),
                     },
                 }),
             );
@@ -68,6 +69,7 @@ const CreateEditExpenseModalScreen = () => {
                     expense: {
                         ...expenseData,
                         date: convertDate(expenseData.date),
+                        amount: convertMount(expenseData.amount),
                     },
                 }),
             );
