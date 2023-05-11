@@ -37,7 +37,7 @@ const FloatingLabelInput: FC<FloatingLabelInputProps> = ({
 const styles = StyleSheet.create({
     label: {
         position: 'absolute',
-        left: 32,
+        left: 0,
         fontSize: 14,
         fontFamily: 'Helvetica',
         fontWeight: '400',
