@@ -25,15 +25,6 @@ const HomeScreen = () => {
     const expenses = useSelector(selectSortedExpenses);
     const expensesTotalAmount = useSelector(selectExpensesTotalAmount);
 
-    const renderHeader = () => (
-        <View style={styles.header}>
-            <Text style={styles.titleHeader}>{TITLE}</Text>
-            <Text style={styles.sumHeader}>{`$${expensesTotalAmount.toFixed(
-                2,
-            )}`}</Text>
-        </View>
-    );
-
     const showModalEdit = (expense: Expense) => {
         navigation.navigate(Route.ModalExpense, {
             expense,
@@ -43,6 +34,15 @@ const HomeScreen = () => {
     const showModalFilters = () => {
         navigation.navigate(Route.ModalFilter);
     };
+
+    const renderHeader = () => (
+        <View style={styles.header}>
+            <Text style={styles.titleHeader}>{TITLE}</Text>
+            <Text style={styles.sumHeader}>{`$${expensesTotalAmount.toFixed(
+                2,
+            )}`}</Text>
+        </View>
+    );
 
     const renderFiltersButton = () => (
         <PressableOpacity onPress={showModalFilters}>
