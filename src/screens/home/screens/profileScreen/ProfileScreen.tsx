@@ -1,8 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import PressableOpacity from 'components/PressableOpacity';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import PressableOpacity from 'components/PressableOpacity';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Route } from 'screens/route';
 import {
@@ -11,8 +13,6 @@ import {
     WHITE_COLOR,
 } from 'theme/themeStyles';
 import { RootStackParamList } from 'screens/types';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import { selectExpensesTotalItems } from 'store/slices/expenses/selectors';
 import { clearAll } from 'store/actions/actions';
 

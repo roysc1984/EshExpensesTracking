@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform, StyleSheet, Text, View, NativeModules } from 'react-native';
+import { useSelector } from 'react-redux';
 import PressableOpacity from 'components/PressableOpacity';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BLACK_COLOR, GRAY_COLOR, WHITE_COLOR } from 'theme/themeStyles';
@@ -9,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'screens/types';
 import { Route } from 'screens/route';
-import { useSelector } from 'react-redux';
 import {
     selectSortedExpenses,
     selectExpensesTotalAmount,
