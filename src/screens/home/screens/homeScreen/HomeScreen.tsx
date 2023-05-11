@@ -10,27 +10,26 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'screens/types';
 import { Route } from 'screens/route';
-import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
+import {
+    selectSortedExpenses,
+    selectExpensesTotalAmount,
+} from 'store/slices/expenses/selectors';
 
 const TITLE = 'Total Expenses:';
 const FILTER_BUTTON_TEXT = 'Filters';
 
 const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-    const { expenses } = useSelector((state: RootState) => state.expenses);
-
-    const getTotal = () => {
-        return expenses.reduce(
-            (total, expense) => total + (expense?.amount ?? 0),
-            0,
-        );
-    };
+    const expenses = useSelector(selectSortedExpenses);
+    const expensesTotalAmount = useSelector(selectExpensesTotalAmount);
 
     const renderHeader = () => (
         <View style={styles.header}>
             <Text style={styles.titleHeader}>{TITLE}</Text>
-            <Text style={styles.sumHeader}>{`$${getTotal().toFixed(2)}`}</Text>
+            <Text style={styles.sumHeader}>{`$${expensesTotalAmount.toFixed(
+                2,
+            )}`}</Text>
         </View>
     );
 

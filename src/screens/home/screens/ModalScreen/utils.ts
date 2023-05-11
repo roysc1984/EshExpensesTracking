@@ -1,6 +1,6 @@
 import { formatDate } from 'common/utils';
 import { format, isValid, parse } from 'date-fns';
-import { Expense } from 'model/types';
+import { Expense, FilterExpenseData } from 'model/types';
 
 export const showAmount = (amount?: number) => {
     if (!amount) return '';
@@ -13,7 +13,7 @@ export const showAmount = (amount?: number) => {
 };
 
 export const convertDate = (date: string) => {
-    const newDate = date.split('.').join('/');
+    const newDate = date?.split('.').join('/');
     const parsedDate = parse(newDate, 'P', new Date());
     if (isValid(parsedDate)) {
         return new Date(format(parsedDate, 'yyyy-MM-dd')).getTime();
@@ -23,5 +23,16 @@ export const convertDate = (date: string) => {
 };
 
 export const setStrDate = (expense: Expense) => {
-    return { ...expense, date: formatDate(expense.date) };
+    return {
+        ...expense,
+        date: expense.date ? formatDate(expense.date) : '',
+    };
+};
+
+export const setStrDateFilter = (expense: FilterExpenseData) => {
+    return {
+        ...expense,
+        date: expense.date ? formatDate(expense.date) : '',
+        id: 'filter',
+    };
 };

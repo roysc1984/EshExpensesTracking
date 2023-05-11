@@ -87,7 +87,7 @@ const CreateEditExpenseModalScreen = () => {
                     />
                 </View>
                 <ActionButton
-                    disabled={!expenseData?.amount || !expenseData?.date}
+                    disabled={!expenseData?.amount}
                     style={styles.button}
                     onPress={expenseData?.id ? onEditExpense : onAddExpense}
                     text={expenseData ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}

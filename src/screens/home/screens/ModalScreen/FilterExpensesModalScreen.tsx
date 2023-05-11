@@ -18,6 +18,13 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from 'screens/types';
 import ExpenseInputs from './components/ExpenseInputs';
 import { ExpenseInput } from './types';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    setFilterExpenseData,
+    clearFilterExpenseData,
+} from 'store/slices/expenses/reducer';
+import { convertDate, setStrDateFilter } from './utils';
+import { selectExpensesFilterData } from 'store/slices/expenses/selectors';
 
 const BUTTON_TEXT = 'Filter';
 const TITLE = 'Filters';
@@ -26,10 +33,15 @@ const CLEAN_BUTTON = 'clean';
 const FilterExpensesModalScreen = () => {
     const { height } = useWindowDimensions();
     const { current } = useCardAnimation();
-
+    const dispatch = useDispatch();
+    const expenseFilter = useSelector(selectExpensesFilterData);
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const [expenseData, setExpenseData] = useState<ExpenseInput | undefined>(
-        undefined,
+        expenseFilter
+            ? {
+                  ...setStrDateFilter(expenseFilter),
+              }
+            : undefined,
     );
     const close = () => navigation.goBack();
 
@@ -48,7 +60,20 @@ const FilterExpensesModalScreen = () => {
     );
 
     const onFilter = () => {
-        // add action here
+        if (expenseData) {
+            dispatch(
+                setFilterExpenseData({
+                    filterExpense: {
+                        ...expenseData,
+                        date: expenseData.date
+                            ? convertDate(expenseData.date)
+                            : undefined,
+                    },
+                }),
+            );
+        } else if (expenseFilter) {
+            dispatch(clearFilterExpenseData());
+        }
         close();
     };
     return (

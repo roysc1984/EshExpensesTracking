@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { setUserAction } from './payloads';
+import { clearAll } from 'store/actions/actions';
 
 type SliceState = {
     name: string;
@@ -16,11 +17,9 @@ const userSlice = createSlice({
         setUserName(state, action: PayloadAction<setUserAction>) {
             state.name = action.payload.name;
         },
-        removeUserName(state) {
-            state.name = '';
-        },
     },
+    extraReducers: (builder) => builder.addCase(clearAll, () => initialState),
 });
 
 export default userSlice.reducer;
-export const { setUserName, removeUserName } = userSlice.actions;
+export const { setUserName } = userSlice.actions;

@@ -4,3 +4,9 @@ export interface Expense {
     amount: number | undefined;
     date: number;
 }
+
+export interface FilterExpenseData {
+    title: string;
+    amount: number | undefined;
+    date: number | undefined;
+}

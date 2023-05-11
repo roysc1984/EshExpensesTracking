@@ -1,13 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addEditExpensesAction, removeExpensesAction } from './payloads';
-import { Expense } from 'model/types';
+import {
+    addEditExpensesAction,
+    removeExpensesAction,
+    setFilterExpenseDataAction,
+} from './payloads';
+import { Expense, FilterExpenseData } from 'model/types';
+import { clearAll } from 'store/actions/actions';
 
-type SliceState = {
+export type SliceState = {
     expenses: Expense[];
+    filterExpenseData: FilterExpenseData | undefined;
 };
 
 const initialState: SliceState = {
     expenses: [],
+    filterExpenseData: undefined,
 };
 
 const expensesSlice = createSlice({
@@ -28,12 +35,24 @@ const expensesSlice = createSlice({
                 (expenses) => expenses.id !== action.payload.id,
             );
         },
-        removeAllExpenses(state) {
-            state.expenses = [];
+        setFilterExpenseData(
+            state,
+            action: PayloadAction<setFilterExpenseDataAction>,
+        ) {
+            state.filterExpenseData = action.payload.filterExpense;
+        },
+        clearFilterExpenseData(state) {
+            state.filterExpenseData = undefined;
         },
     },
+    extraReducers: (builder) => builder.addCase(clearAll, () => initialState),
 });
 
 export default expensesSlice.reducer;
-export const { addExpense, updateExpense, removeExpense, removeAllExpenses } =
-    expensesSlice.actions;
+export const {
+    addExpense,
+    updateExpense,
+    removeExpense,
+    setFilterExpenseData,
+    clearFilterExpenseData,
+} = expensesSlice.actions;
