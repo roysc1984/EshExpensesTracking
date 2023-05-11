@@ -33,8 +33,10 @@ const CreateEditExpenseModalScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const route = useRoute<CreateEditExpenseModalScreenProps['route']>();
     const dispatch = useDispatch();
+    const paramExpense = route.params?.expense;
+
     const [expenseData, setExpenseData] = useState<ExpenseInput | undefined>(
-        route.params?.expense ? setStrDate(route.params.expense) : undefined,
+        paramExpense ? setStrDate(paramExpense) : undefined,
     );
 
     const close = () => navigation.goBack();
@@ -79,7 +81,7 @@ const CreateEditExpenseModalScreen = () => {
             <View style={styles.content}>
                 <View>
                     <Text style={styles.title}>
-                        {expenseData ? EDIT_TEXT : CREATE_TEXT}
+                        {paramExpense ? EDIT_TEXT : CREATE_TEXT}
                     </Text>
                     <ExpenseInputs
                         expense={expenseData}
@@ -90,7 +92,7 @@ const CreateEditExpenseModalScreen = () => {
                     disabled={!expenseData?.amount}
                     style={styles.button}
                     onPress={expenseData?.id ? onEditExpense : onAddExpense}
-                    text={expenseData ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}
+                    text={paramExpense ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}
                 />
             </View>
         </KeyboardAvoidingView>
