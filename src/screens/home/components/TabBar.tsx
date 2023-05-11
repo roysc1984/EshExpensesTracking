@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import PressableOpacity from 'components/PressableOpacity';
@@ -10,6 +10,9 @@ import { Route } from 'screens/route';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const ICON_SIZE = 56;
 const PLUS_BUTTON_LEFT_POSITION = (SCREEN_WIDTH - ICON_SIZE) / 2;
+
+const TAB_HONE_TEXT = 'Home';
+const TAB_PROFILE_TEXT = 'Profile';
 
 const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
     const [activeTab, setActiveTab] = useState<MenuButtons>('Home');
@@ -40,7 +43,7 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
                         activeTab === 'Home' && { color: BLUE_COLOR },
                     ]}
                 >
-                    Home
+                    {TAB_HONE_TEXT}
                 </Text>
             </PressableOpacity>
         );
@@ -58,7 +61,7 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
                         activeTab === 'Profile' && { color: BLUE_COLOR },
                     ]}
                 >
-                    Profile
+                    {TAB_PROFILE_TEXT}
                 </Text>
             </PressableOpacity>
         );
@@ -106,6 +109,7 @@ const styles = StyleSheet.create({
     menuButton: {
         flex: 1,
         alignItems: 'center',
+        padding: 10,
     },
     plusButton: {
         position: 'absolute',
