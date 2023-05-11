@@ -10,7 +10,7 @@ import {
     useWindowDimensions,
 } from 'react-native';
 import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR } from 'theme/themeStyles';
-import { CloseXIcon } from 'assets/icons/CloseXIcon';
+import { CloseXIcon } from 'components/icons/CloseXIcon';
 import PressableOpacity from 'components/PressableOpacity';
 import ActionButton from 'components/ActionButton';
 import { StackNavigationProp, useCardAnimation } from '@react-navigation/stack';

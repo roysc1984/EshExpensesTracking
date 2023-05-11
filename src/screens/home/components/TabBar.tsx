@@ -4,8 +4,8 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import PressableOpacity from 'components/PressableOpacity';
 import { MenuButtons } from '../types';
 import { BLACK_COLOR, BLUE_COLOR, WHITE_COLOR } from 'theme/themeStyles';
-import { PlusIcon } from 'assets/icons/PlusIcon';
 import { Route } from 'screens/route';
+import { PlusIcon } from 'components/icons/PlusIcon';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const ICON_SIZE = 56;

@@ -22,7 +22,6 @@ module.exports = {
                     components: './src/components',
                     utils: './src/utils',
                     reducers: './src/reducers',
-                    svg: './src/assets/icons',
                 },
             },
         ],

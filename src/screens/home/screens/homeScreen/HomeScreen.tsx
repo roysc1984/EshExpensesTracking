@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform, StyleSheet, Text, View, NativeModules } from 'react-native';
-import { SlidersIcon } from 'assets/icons/SlidersIcon';
 import PressableOpacity from 'components/PressableOpacity';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BLACK_COLOR, GRAY_COLOR, WHITE_COLOR } from 'theme/themeStyles';
@@ -15,6 +14,7 @@ import {
     selectSortedExpenses,
     selectExpensesTotalAmount,
 } from 'store/slices/expenses/selectors';
+import { SlidersIcon } from 'components/icons/SlidersIcon';
 
 const { StatusBarManager } = NativeModules;
 const TITLE = 'Total Expenses:';
