@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, NativeModules } from 'react-native';
 import { SlidersIcon } from 'assets/icons/SlidersIcon';
 import PressableOpacity from 'components/PressableOpacity';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ import {
     selectExpensesTotalAmount,
 } from 'store/slices/expenses/selectors';
 
+const { StatusBarManager } = NativeModules;
 const TITLE = 'Total Expenses:';
 const FILTER_BUTTON_TEXT = 'Filters';
 
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
         paddingBottom: 21,
         flexDirection: 'row',
         paddingHorizontal: 14,
+        paddingTop: Platform.OS === 'android' ? StatusBarManager.HEIGHT : 0,
     },
     titleHeader: {
         fontFamily: 'Helvetica',

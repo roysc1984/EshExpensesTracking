@@ -31,6 +31,7 @@ const HomeStackScreens = () => {
                 options={{
                     headerTitle: name,
                     headerShown: true,
+                    headerTitleAlign: 'center',
                 }}
             />
             <HomeStack.Screen name={Screen.Profile} component={ProfileScreen} />
