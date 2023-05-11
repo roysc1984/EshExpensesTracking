@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     menuButton: {
         flex: 1,
         alignItems: 'center',
-        padding: 10,
+        padding: 15,
     },
     plusButton: {
         position: 'absolute',

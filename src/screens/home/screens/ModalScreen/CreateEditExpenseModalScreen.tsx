@@ -7,7 +7,7 @@ import {
     View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { BLACK_COLOR } from 'theme/themeStyles';
+import { BLACK_COLOR, BLUE_COLOR } from 'theme/themeStyles';
 import { CloseXIcon } from 'components/icons/CloseXIcon';
 import PressableOpacity from 'components/PressableOpacity';
 import ActionButton from 'components/ActionButton';
@@ -19,7 +19,11 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import ExpenseInputs from './components/ExpenseInputs';
-import { addExpense, updateExpense } from 'store/slices/expenses/reducer';
+import {
+    addExpense,
+    removeExpense,
+    updateExpense,
+} from 'store/slices/expenses/reducer';
 import { getUuid } from 'common/utils';
 import { convertDate, setStrDate } from './utils';
 import { ExpenseInput } from './types';
@@ -28,6 +32,7 @@ const EDIT_TEXT = 'Edit Expense';
 const CREATE_TEXT = 'Create Expense';
 const BUTTON_TEXT_SAVE = 'Save';
 const BUTTON_TEXT_CREATE = 'Create';
+const BUTTON_TEXT_REMOVE = 'Remove';
 
 const CreateEditExpenseModalScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -70,14 +75,35 @@ const CreateEditExpenseModalScreen = () => {
         }
     };
 
+    const onRemoveExpense = () => {
+        // added remove label - remove expense from store ans close modal
+        if (expenseData) {
+            dispatch(removeExpense({ id: expenseData?.id }));
+            close();
+        }
+    };
+
+    const renderTopHeader = () => (
+        <View style={styles.closeButton}>
+            {paramExpense ? (
+                <PressableOpacity onPress={onRemoveExpense}>
+                    <Text style={styles.remove}>{BUTTON_TEXT_REMOVE}</Text>
+                </PressableOpacity>
+            ) : (
+                <View />
+            )}
+            <PressableOpacity onPress={close}>
+                <CloseXIcon />
+            </PressableOpacity>
+        </View>
+    );
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.container}
         >
-            <PressableOpacity onPress={close} style={styles.closeButton}>
-                <CloseXIcon />
-            </PressableOpacity>
+            {renderTopHeader()}
             <View style={styles.content}>
                 <View>
                     <Text style={styles.title}>
@@ -118,12 +144,20 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     closeButton: {
-        alignSelf: 'flex-end',
+        flexDirection: 'row',
         paddingTop: 10,
         paddingHorizontal: 20,
+        justifyContent: 'space-between',
     },
     button: {
         alignSelf: 'center',
+    },
+    remove: {
+        fontFamily: 'Helvetica',
+        color: BLUE_COLOR,
+        fontSize: 10,
+        fontWeight: '400',
+        padding: 5,
     },
 });
 
