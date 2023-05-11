@@ -26,7 +26,7 @@ export const convertDate = (date: string) => {
     if (isValid(parsedDate)) {
         return new Date(format(parsedDate, 'yyyy-MM-dd')).getTime();
     } else {
-        return new Date().getTime();
+        return new Date(format(new Date(), 'yyyy-MM-dd')).getTime();
     }
 };
 
