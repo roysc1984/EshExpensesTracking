@@ -11,7 +11,7 @@ import PressableOpacity from 'components/PressableOpacity';
 import { BLACK_COLOR, WHITE_SMOKE_COLOR } from 'theme/themeStyles';
 import { Expense } from 'model/types';
 import { Section } from './types';
-import { orderedExpensesData } from './utils';
+import { orderedExpensesSectionData } from './utils';
 import { formatDate } from 'common/utils';
 
 interface ExpensesListProps {
@@ -21,7 +21,7 @@ interface ExpensesListProps {
 
 const ExpensesList: FC<ExpensesListProps> = ({ expenses, onEditPress }) => {
     const expensesData = useMemo(
-        () => orderedExpensesData(expenses),
+        () => orderedExpensesSectionData(expenses),
         [expenses],
     );
 

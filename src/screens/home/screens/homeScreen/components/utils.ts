@@ -1,7 +1,7 @@
 import { Expense } from 'model/types';
 import { Section } from './types';
 
-export const orderedExpensesData = (expenses: Expense[]): Section[] =>
+export const orderedExpensesSectionData = (expenses: Expense[]): Section[] =>
     Object.values(
         expenses.reduce(
             (acc: Record<string, Section>, { id, title, date, amount }) => {

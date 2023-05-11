@@ -12,7 +12,7 @@ export const showAmount = (amount?: number) => {
     }
 };
 
-const parseDate = (date: string) => {
+export const parseDate = (date: string) => {
     const newDate = date?.split('.').join('/');
     return parse(newDate, 'P', new Date());
 };
