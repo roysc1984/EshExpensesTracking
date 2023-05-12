@@ -95,7 +95,7 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         borderTopColor: BLACK_COLOR + '80',
-        borderTopWidth: 0.2,
+        borderTopWidth: 0.5,
         height: 90,
         backgroundColor: WHITE_COLOR,
     },
