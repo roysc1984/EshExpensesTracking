@@ -26,6 +26,7 @@ import {
 import {
     convertDate,
     convertMount,
+    isValidAmount,
     isValidDate,
     setStrDateFilter,
 } from './utils';
@@ -118,6 +119,7 @@ const FilterExpensesModalScreen = () => {
                             changeExpense={setExpenseData}
                         />
                         <ActionButton
+                            disabled={!isValidAmount(expenseData?.amount)}
                             style={styles.button}
                             onPress={onFilter}
                             text={BUTTON_TEXT}

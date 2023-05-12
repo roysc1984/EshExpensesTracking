@@ -25,7 +25,7 @@ import {
     updateExpense,
 } from 'store/slices/expenses/reducer';
 import { getUuid } from 'common/utils';
-import { convertDate, convertMount, setStrDate } from './utils';
+import { convertDate, convertMount, isValidAmount, setStrDate } from './utils';
 import { ExpenseInput } from './types';
 
 const EDIT_TEXT = 'Edit Expense';
@@ -47,7 +47,7 @@ const CreateEditExpenseModalScreen = () => {
     const close = () => navigation.goBack();
 
     const onAddExpense = () => {
-        if (expenseData) {
+        if (expenseData && isValidAmount(expenseData?.amount)) {
             dispatch(
                 addExpense({
                     expense: {
@@ -63,7 +63,7 @@ const CreateEditExpenseModalScreen = () => {
     };
 
     const onEditExpense = () => {
-        if (expenseData) {
+        if (expenseData && isValidAmount(expenseData?.amount)) {
             dispatch(
                 updateExpense({
                     expense: {
@@ -117,7 +117,10 @@ const CreateEditExpenseModalScreen = () => {
                     />
                 </View>
                 <ActionButton
-                    disabled={!expenseData?.amount}
+                    disabled={
+                        !isValidAmount(expenseData?.amount) ||
+                        !expenseData?.title
+                    }
                     style={styles.button}
                     onPress={expenseData?.id ? onEditExpense : onAddExpense}
                     text={paramExpense ? BUTTON_TEXT_SAVE : BUTTON_TEXT_CREATE}

@@ -50,3 +50,6 @@ export const setStrDateFilter = (expense: FilterExpenseData) => {
 
 export const removeDollarChar = (value: string) =>
     value.charAt(0) === '$' ? value.slice(1) : value;
+
+export const isValidAmount = (amount?: string) =>
+    amount && amount !== '0' && !Number.isNaN(parseFloat(amount));
