@@ -57,7 +57,7 @@ const HomeScreen = () => {
         <SafeAreaView edges={['left', 'right', 'top']} style={styles.container}>
             {renderHeader()}
             {renderFiltersButton()}
-            <View>
+            <View style={styles.list}>
                 <ExpensesList expenses={expenses} onEditPress={showModalEdit} />
             </View>
         </SafeAreaView>
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: WHITE_COLOR,
+    },
+    list: {
+        flex: 1,
     },
     header: {
         paddingBottom: 21,
