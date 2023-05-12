@@ -41,7 +41,7 @@ export const selectExpensesTotalItems = createSelector(
 );
 
 export const selectExpensesTotalAmount = createSelector(
-    selectExpenses,
+    selectSortedExpenses,
     (expenses) => {
         return expenses.reduce(
             (total, expense) => total + (expense?.amount ?? 0),
