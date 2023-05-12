@@ -119,7 +119,6 @@ const FilterExpensesModalScreen = () => {
                             changeExpense={setExpenseData}
                         />
                         <ActionButton
-                            disabled={!isValidAmount(expenseData?.amount)}
                             style={styles.button}
                             onPress={onFilter}
                             text={BUTTON_TEXT}
