@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     itemSeparator: {
         backgroundColor: BLACK_COLOR,
-        height: 0.3,
+        height: 0.5,
     },
 });
 
