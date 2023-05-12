@@ -23,7 +23,12 @@ import {
     setFilterExpenseData,
     clearFilterExpenseData,
 } from 'store/slices/expenses/reducer';
-import { convertDate, isValidDate, setStrDateFilter } from './utils';
+import {
+    convertDate,
+    convertMount,
+    isValidDate,
+    setStrDateFilter,
+} from './utils';
 import { selectExpensesFilterData } from 'store/slices/expenses/selectors';
 
 const BUTTON_TEXT = 'Filter';
@@ -69,6 +74,7 @@ const FilterExpensesModalScreen = () => {
                             expenseData.date && isValidDate(expenseData.date)
                                 ? convertDate(expenseData.date)
                                 : undefined,
+                        amount: convertMount(expenseData.amount),
                     },
                 }),
             );

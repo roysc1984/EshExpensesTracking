@@ -43,6 +43,7 @@ export const setStrDateFilter = (expense: FilterExpenseData) => {
     return {
         ...expense,
         date: expense.date ? formatDate(expense.date) : '',
+        amount: expense.amount ? `${expense.amount}` : '',
         id: 'filter',
     };
 };
