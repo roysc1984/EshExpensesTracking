@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+    createSlice,
+    PayloadAction,
+    createEntityAdapter,
+    EntityState,
+} from '@reduxjs/toolkit';
 import {
     addEditExpensesAction,
     removeExpensesAction,
@@ -7,33 +12,38 @@ import {
 import { Expense, FilterExpenseData } from 'model/types';
 import { clearAll } from 'store/actions/actions';
 
-export type SliceState = {
-    expenses: Expense[];
+export interface SliceStateExtra {
+    // expenses: Expense[];
     filterExpenseData: FilterExpenseData | undefined;
-};
+}
 
-const initialState: SliceState = {
-    expenses: [],
+export type SliceState = EntityState<Expense> & SliceStateExtra;
+
+const initialState: SliceStateExtra = {
+    //expenses: [],
     filterExpenseData: undefined,
 };
 
+export const ExpensesAdapter = createEntityAdapter<Expense>({
+    selectId: (expense) => expense.id,
+    sortComparer: (a, b) => b.date - a.date,
+});
+
 const expensesSlice = createSlice({
     name: 'expenses',
-    initialState: initialState,
+    initialState: ExpensesAdapter.getInitialState(initialState),
     reducers: {
         addExpense(state, action: PayloadAction<addEditExpensesAction>) {
-            state.expenses.push(action.payload.expense);
+            ExpensesAdapter.addOne(state, action.payload.expense);
         },
         updateExpense(state, action: PayloadAction<addEditExpensesAction>) {
-            const index = state.expenses.findIndex(
-                (expense) => expense.id === action.payload.expense.id,
-            );
-            state.expenses[index] = action.payload.expense;
+            ExpensesAdapter.updateOne(state, {
+                id: action.payload.expense.id,
+                changes: action.payload.expense,
+            });
         },
         removeExpense(state, action: PayloadAction<removeExpensesAction>) {
-            state.expenses = state.expenses.filter(
-                (expenses) => expenses.id !== action.payload.id,
-            );
+            ExpensesAdapter.removeOne(state, action.payload.id);
         },
         setFilterExpenseData(
             state,
@@ -45,7 +55,10 @@ const expensesSlice = createSlice({
             state.filterExpenseData = undefined;
         },
     },
-    extraReducers: (builder) => builder.addCase(clearAll, () => initialState),
+    extraReducers: (builder) =>
+        builder.addCase(clearAll, () =>
+            ExpensesAdapter.getInitialState(initialState),
+        ),
 });
 
 export default expensesSlice.reducer;

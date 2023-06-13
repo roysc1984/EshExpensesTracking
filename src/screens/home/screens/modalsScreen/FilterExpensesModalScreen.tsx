@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     Animated,
     KeyboardAvoidingView,
@@ -26,11 +26,16 @@ import {
 import {
     convertDate,
     convertMount,
-    isValidAmount,
     isValidDate,
     setStrDateFilter,
 } from './utils';
 import { selectExpensesFilterData } from 'store/slices/expenses/selectors';
+import {
+    GestureEvent,
+    PanGestureHandler,
+    PanGestureHandlerEventPayload,
+    State,
+} from 'react-native-gesture-handler';
 
 const BUTTON_TEXT = 'Filter';
 const TITLE = 'Filters';
@@ -38,6 +43,7 @@ const CLEAN_BUTTON = 'clean';
 
 const FilterExpensesModalScreen = () => {
     const { height } = useWindowDimensions();
+    const dialogHeight = useRef(new Animated.Value(0)).current;
     const { current } = useCardAnimation();
     const dispatch = useDispatch();
     const expenseFilter = useSelector(selectExpensesFilterData);
@@ -84,6 +90,38 @@ const FilterExpensesModalScreen = () => {
         }
         close();
     };
+
+    const onGestureEvent = (
+        event: GestureEvent<PanGestureHandlerEventPayload>,
+    ) => {
+        switch (event.nativeEvent.state) {
+            case State.ACTIVE:
+                if (
+                    event.nativeEvent.y + event.nativeEvent.translationY >
+                    -height * 0.4
+                ) {
+                    dialogHeight.setValue(
+                        event.nativeEvent.y + event.nativeEvent.translationY,
+                    );
+                }
+                break;
+            case State.END:
+                if (
+                    -(event.nativeEvent.y + event.nativeEvent.translationY) <
+                    -(height * 0.6)
+                ) {
+                    close();
+                } else {
+                    Animated.timing(dialogHeight, {
+                        toValue: 0,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
+                }
+                break;
+        }
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -93,6 +131,7 @@ const FilterExpensesModalScreen = () => {
                 style={[StyleSheet.absoluteFill, styles.backDrop]}
                 onPress={close}
             />
+
             <Animated.View
                 style={[
                     {
@@ -110,21 +149,50 @@ const FilterExpensesModalScreen = () => {
                     styles.viewAnimated,
                 ]}
             >
-                <View style={[styles.viewContainer, { height: height }]}>
-                    {renderHeader()}
-                    <View style={[styles.content, { height: height * 0.55 }]}>
-                        <ExpenseInputs
-                            style={styles.inputs}
-                            expense={expenseData}
-                            changeExpense={setExpenseData}
-                        />
-                        <ActionButton
-                            style={styles.button}
-                            onPress={onFilter}
-                            text={BUTTON_TEXT}
-                        />
-                    </View>
-                </View>
+                <PanGestureHandler
+                    enabled={true}
+                    onGestureEvent={onGestureEvent}
+                    onHandlerStateChange={onGestureEvent}
+                >
+                    <Animated.View
+                        style={[
+                            {
+                                transform: [
+                                    {
+                                        translateY: dialogHeight.interpolate({
+                                            inputRange: [0, height],
+                                            outputRange: [0, height * 0.4],
+                                            extrapolate: 'clamp',
+                                        }),
+                                    },
+                                ],
+                            },
+                        ]}
+                    >
+                        <View
+                            style={[styles.viewContainer, { height: height }]}
+                        >
+                            {renderHeader()}
+                            <View
+                                style={[
+                                    styles.content,
+                                    { height: height * 0.55 },
+                                ]}
+                            >
+                                <ExpenseInputs
+                                    style={styles.inputs}
+                                    expense={expenseData}
+                                    changeExpense={setExpenseData}
+                                />
+                                <ActionButton
+                                    style={styles.button}
+                                    onPress={onFilter}
+                                    text={BUTTON_TEXT}
+                                />
+                            </View>
+                        </View>
+                    </Animated.View>
+                </PanGestureHandler>
             </Animated.View>
         </KeyboardAvoidingView>
     );

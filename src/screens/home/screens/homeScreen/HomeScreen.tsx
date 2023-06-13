@@ -11,7 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'screens/types';
 import { Route } from 'screens/route';
 import {
-    selectSortedExpenses,
+    selectFilterExpenses,
     selectExpensesTotalAmount,
 } from 'store/slices/expenses/selectors';
 import { SlidersIcon } from 'components/icons/SlidersIcon';
@@ -22,7 +22,7 @@ const FILTER_BUTTON_TEXT = 'Filters';
 
 const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-    const expenses = useSelector(selectSortedExpenses);
+    const expenses = useSelector(selectFilterExpenses);
     const expensesTotalAmount = useSelector(selectExpensesTotalAmount);
 
     const showModalEdit = (expense: Expense) => {

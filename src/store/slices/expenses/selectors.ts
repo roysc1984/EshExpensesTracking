@@ -1,21 +1,19 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { Expense } from 'model/types';
+import { ExpensesAdapter } from './reducer';
 import { RootState } from 'store/store';
 
-export const selectExpenses = (state: RootState) => state.expenses.expenses;
+export const selectExpenses = (state: RootState) =>
+    ExpensesAdapter.getSelectors().selectAll(state.expenses);
+
 export const selectExpensesFilterData = (state: RootState) =>
     state.expenses.filterExpenseData;
 
-export const selectSortedExpenses = createSelector(
+export const selectFilterExpenses = createSelector(
     selectExpenses,
     selectExpensesFilterData,
     (expenses, filterExpenseData) => {
-        const useableExpenses = [...expenses];
-        const sortedExpenses = useableExpenses.sort(
-            (a: Expense, b: Expense) => b.date - a.date,
-        );
         if (filterExpenseData) {
-            const matchedFilter = sortedExpenses.filter(
+            const matchedFilter = expenses.filter(
                 (expense) =>
                     (filterExpenseData?.amount
                         ? expense.amount === filterExpenseData.amount
@@ -30,7 +28,7 @@ export const selectSortedExpenses = createSelector(
 
             return matchedFilter;
         } else {
-            return sortedExpenses;
+            return expenses;
         }
     },
 );
@@ -41,7 +39,7 @@ export const selectExpensesTotalItems = createSelector(
 );
 
 export const selectExpensesTotalAmount = createSelector(
-    selectSortedExpenses,
+    selectFilterExpenses,
     (expenses) => {
         return expenses.reduce(
             (total, expense) => total + (expense?.amount ?? 0),
